@@ -12,6 +12,11 @@
                     <value>(&lt;(?:creditCardNumber|ssn|username|address)>).*(&lt;)</value>
                     <mask>$1*REDACTED*$2</mask>
                 </valueMask>
+                <!-- Default ToString -->
+                <valueMask>
+                    <value>((?:creditCardNumber|ssn|username|address)=).*([,\)]+)</value>
+                    <mask>$1*REDACTED*$2</mask>
+                </valueMask>
             </jsonGeneratorDecorator>
         </encoder>
     </appender>

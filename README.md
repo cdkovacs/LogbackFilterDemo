@@ -33,6 +33,11 @@ Add the following to your `logback.xml` file:
                     <value>(&lt;(?:creditCardNumber|ssn|username|address)>).*(&lt;)</value>
                     <mask>$1*REDACTED*$2</mask>
                 </valueMask>
+                <!-- Default ToString -->
+                <valueMask>
+                    <value>((?:creditCardNumber|ssn|username|address)=).*([,\)]+)</value>
+                    <mask>$1*REDACTED*$2</mask>
+                </valueMask>
             </jsonGeneratorDecorator>
         </encoder>
     </appender>
@@ -62,7 +67,7 @@ We can use [LogbackConfigJsonMessageTest class](src/test/java/net/toph/logbackfi
 to test this.
 
 ## Filtering XML data
-The following XML snippet (see [the logback config](src/main/resources/logback.xml)) replaces values XML elements 
+The following XML snippet (see [the logback config](src/main/resources/logback.xml)) replaces values of XML elements 
 named `creditCardNumber`, `ssn`, `username`, and `address` with `*REDACTED*`:
 ```xml
 <valueMask>
@@ -72,4 +77,17 @@ named `creditCardNumber`, `ssn`, `username`, and `address` with `*REDACTED*`:
 ```
 
 We can use [LogbackConfigXmlMessageTest class](src/test/java/net/toph/logbackfilterdemo/config/LogbackConfigXmlMessageTest.java)
+to test this.
+
+## Filtering default toString data
+The following XML snippet (see [the logback config](src/main/resources/logback.xml)) replaces values rendered with the 
+Lombok `@ToString` annotation named `creditCardNumber`, `ssn`, `username`, and `address` with `*REDACTED*`:
+```xml
+<valueMask>
+    <value>((?:creditCardNumber|ssn|username|address)=).*([,\)]+)</value>
+    <mask>$1*REDACTED*$2</mask>
+</valueMask>
+```
+
+We can use [LogbackConfigToStringMessageTest class](src/test/java/net/toph/logbackfilterdemo/config/LogbackConfigToStringMessageTest.java)
 to test this.

@@ -1,0 +1,22 @@
+<configuration>
+    <appender name="json" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <jsonGeneratorDecorator class="net.logstash.logback.mask.MaskingJsonGeneratorDecorator">
+                <!-- JSON -->
+                <valueMask>
+                    <value>(\"(?:creditCardNumber|ssn|username|address)\":\").*(\")</value>
+                    <mask>$1*REDACTED*$2</mask>
+                </valueMask>
+                <!-- XML -->
+                <valueMask>
+                    <value>(&lt;(?:creditCardNumber|ssn|username|address)>).*(&lt;)</value>
+                    <mask>$1*REDACTED*$2</mask>
+                </valueMask>
+            </jsonGeneratorDecorator>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="json"/>
+    </root>
+</configuration>
